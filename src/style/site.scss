@@ -1,0 +1,13 @@
+@import "./variables";
+@import "./auth";
+
+body {
+    background-color: $body-background;
+}
+
+.common {
+    margin-top: 50px;
+    .container{
+        height: 80vh;
+    }
+}
