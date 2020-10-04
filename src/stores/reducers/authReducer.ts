@@ -15,7 +15,6 @@ export const authReducer: Reducer<IAuthState, AuthActions> = (state = initialSta
     }
     switch (action.type) {
         case AuthActionTypes.LOGIN:
-            console.log("login response: ", action.auth);
             return {
                 ...state,
                 auth: action.auth,
@@ -29,6 +28,13 @@ export const authReducer: Reducer<IAuthState, AuthActions> = (state = initialSta
                 ...state,
                 loading: true,
             };
+        case AuthActionTypes.REGISTER:
+            return {
+                ...state,
+                auth: action.auth,
+                loading: false,
+                isAuthenticated: true
+            }
         default:
             return state;
     }

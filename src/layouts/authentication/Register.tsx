@@ -1,15 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import logo from "../../calendar.svg"
-import { IUser } from "../../models";
+import { IRegister, IUser } from "../../models";
+import { register } from "../../stores/actions/authActions";
+import { IApplicationState } from "../../stores/store";
 
-interface IProps { }
+interface IProps {
+    isLoggedIn: boolean;
+    register: (model: IRegister) => void;
+}
 interface IState {
     user: IUser & { rePassword: string }
     errors: string[]
 }
 
-export class Register extends React.Component<IProps, IState> {
+export class RegisterComponent extends React.Component<IProps, IState> {
     state: IState = {
         user: {
             id: 0,
@@ -32,10 +38,16 @@ export class Register extends React.Component<IProps, IState> {
         if (user.password !== user.rePassword) {
             console.log("parola eşleşmedi");
             errors.push("parolalar eşleşmedi")
+            this.setState({ user, errors })
+        } else {
+
+            this.props.register(this.state.user)
         }
-        this.setState({ user, errors })
     }
     render() {
+        if (this.props.isLoggedIn) {
+            return <Redirect to="/home" />
+        }
         const { user, errors } = this.state;
         const warnings = errors.length > 0 ? (
             <div className="alert alert-danger" role="alert">
@@ -77,5 +89,15 @@ export class Register extends React.Component<IProps, IState> {
         );
     }
 }
-
-export default Register;
+const mapStateToProps = (store: IApplicationState) => {
+    return {
+        isLoggedIn: store.auth.isAuthenticated
+    };
+};
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        register: (model: IRegister) => dispatch(register(model))
+    };
+};
+const connectedRegister = connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)
+export { connectedRegister as Register }

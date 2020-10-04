@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import Logout from '../layouts/authentication/Logout';
 
 export const Navbar: React.FunctionComponent = () => {
     return (
@@ -9,7 +10,7 @@ export const Navbar: React.FunctionComponent = () => {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
+                <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         <NavLink to="/home" className="nav-link">Ana Sayfa <span className="sr-only">(current)</span></NavLink>
                     </li>
@@ -17,6 +18,7 @@ export const Navbar: React.FunctionComponent = () => {
                         <NavLink to="/profile" className="nav-link">Profilim</NavLink>
                     </li>
                 </ul>
+                <Logout />
             </div>
         </nav>
     );

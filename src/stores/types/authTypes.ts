@@ -20,7 +20,13 @@ export interface IAuthLoadingAction {
     type: AuthActionTypes.LOADING;
 }
 
-export type AuthActions = IAuthLoginAction | IAuthLoadingAction | IAuthLogoutAction;
+export interface IAuthRegisterAction {
+    type: AuthActionTypes.REGISTER;
+    auth: IAuth;
+}
+
+export type AuthActions = IAuthLoginAction | IAuthLoadingAction
+    | IAuthLogoutAction | IAuthRegisterAction;
 
 export interface IAuthState {
     readonly loading: boolean;
