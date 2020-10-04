@@ -1,5 +1,5 @@
 export * from "./common/Profile";
-export * from "./common/Appointments";
+export * from "./common/Home";
 export * from "./common/CommonLayout";
 
 export * from "./authentication/AuthLayout";

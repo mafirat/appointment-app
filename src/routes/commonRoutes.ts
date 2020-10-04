@@ -1,8 +1,8 @@
-import { Profile, Appointments } from "../layouts";
+import { Profile, Home } from "../layouts";
 
 export const commonRoutes = {
     Home: {
-        Component: Appointments,
+        Component: Home,
         path: "/home"
     },
     Profile: {

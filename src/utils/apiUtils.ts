@@ -30,7 +30,7 @@ export class RestDataSource {
         // TO DO: error handler
         return Promise.reject(error)
     }
-    SetDada = (params: any, token: string, data: any) =>
+    SetData = (params: any, token: string, data: any) =>
         this.SendRequest("POST", this.baseUrl, params, token, data)
     GetData = (params: any, token: string) =>
         this.SendRequest("GET", this.baseUrl, params, token)

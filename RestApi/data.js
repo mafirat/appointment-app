@@ -16,11 +16,11 @@ module.exports = function () {
         appointments: [
             {
                 id: 1, userId: 1, personId: 2, startTime: "10-1-2020 10:12:36",
-                note: "some note", status: "Completed"
+                note: "some note", status: "Completed", descriptin:"Appointment 1 desc", title:"Appointment 1"
             },
             {
                 id: 2, userId: 1, personId: 1, startTime: "10-1-2020 10:12:36",
-                note: "some note", status: "Waiting"
+                note: "some note", status: "Waiting", descriptin:"Appointment 2 desc", title:"Appointment 2"
             },
         ]
     }

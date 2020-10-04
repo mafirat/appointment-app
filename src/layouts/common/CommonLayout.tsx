@@ -16,7 +16,7 @@ export const CommonLayout: React.FunctionComponent<IProps> = ({ Component }) => 
     return (
         <div className="container common">
             <Navbar />
-            <div className="container bg-white rounded">
+            <div className="container bg-white rounded p-2">
                 <Component />
             </div>
         </div>

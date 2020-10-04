@@ -3,9 +3,10 @@ import { IBaseEntity } from "./base";
 export interface IAppointment extends IBaseEntity {
     userId: number;
     personId: number;
-    description: number;
+    title: string;
+    description: string;
     notes: string;
     start: string;
     ends: string;
-    state: string;
+    status: string;
 }
