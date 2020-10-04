@@ -1,21 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import logo from "../../calendar.svg"
+import { ILogin } from "../../models";
+import { login } from "../../stores/actions/authActions";
+import { IApplicationState } from "../../stores/store";
 
 interface IProps {
-
+    isLoggedIn: boolean;
+    login: (model: ILogin) => void;
 }
 interface IState {
     email: string;
     password: string;
-    errors: string[]
 }
-export class Login extends React.Component<IProps, IState>{
-    state: IState = {
-        email: "",
-        password: "",
-        errors: []
-    }
+const initState: IState = {
+    email: "",
+    password: "",
+};
+export class LoginComponent extends React.Component<IProps, IState>{
+    state: IState = { ...initState }
 
     inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ ...this.state, [e.target.name]: e.target.value })
@@ -24,16 +28,14 @@ export class Login extends React.Component<IProps, IState>{
     formSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault();
         const { email, password } = this.state;
-        let errors = []
-        console.log({ email, password });
-
+        this.props.login({ email, password });
+        this.setState({ ...initState });
     }
     render() {
-        const { email, password, errors } = this.state;
-        const warnings = errors.length > 0 ? (
-            <div className="alert alert-danger" role="alert">
-                {errors.map((e, i) => (<li key={i}>{e}</li>))}
-            </div>) : ""
+        const { email, password } = this.state;
+        if (this.props.isLoggedIn) {
+            return <Redirect to="/home" />
+        }
         return (
             <div className="text-center">
                 <form className="form-signin" onSubmit={this.formSubmitHandler}>
@@ -52,4 +54,16 @@ export class Login extends React.Component<IProps, IState>{
         );
     }
 }
-export default Login;
+
+const mapStateToProps = (store: IApplicationState) => {
+    return {
+        isLoggedIn: store.auth.isAuthenticated
+    };
+};
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        login: (model: ILogin) => dispatch(login(model))
+    };
+};
+const connectedLogin = connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
+export { connectedLogin as Login }

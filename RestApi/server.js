@@ -71,7 +71,7 @@ server.post('/api/auth/login', (req, resp) => {
     return
   }
   const nToken = createTokenWith({ email, password })
-  resp.status(200).json({ email, password, accessToken: nToken })
+  resp.status(200).json({ email, accessToken: nToken })
 })
 
 server.use(/^(?!\/auth).*$/, (req, res, next) => {
