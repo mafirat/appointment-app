@@ -7,6 +7,6 @@ export interface IAppointment extends IBaseEntity {
     description: string;
     notes: string;
     start: string;
-    ends: string;
+    end: string;
     status: string;
 }

@@ -55,7 +55,7 @@ export class RegisterComponent extends React.Component<IProps, IState> {
             </div>) : ""
         return (
             <div className="text-center">
-                <form className="form-signin" onSubmit={this.formSubmitHandler} >
+                <form className="form-signin" onSubmit={this.formSubmitHandler} autoComplete="off">
                     <img className="mb-4" src={logo} alt="" width="72" height="72" />
                     <h1 className="h3 mb-3 font-weight-normal">Kayıt Olun</h1>
                     {warnings}

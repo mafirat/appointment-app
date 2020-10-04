@@ -11,8 +11,6 @@ const initialState: IAuthState = {
 export const authReducer: Reducer<IAuthState, AuthActions> = (state = initialState, action) => {
     state.getToken = () => {
         const t = state.auth?.accessToken;
-        console.log({t});
-        
         return t !== undefined ? t : "";
     }
     switch (action.type) {

@@ -1,14 +1,14 @@
 var db = require('./data');
 const jsonServer = require('json-server');
+const crypt = require("crypto-js")
 const server = jsonServer.create();
 const router = jsonServer.router(db.call());
 const middlewares = jsonServer.defaults();
 const jwt = require("jsonwebtoken");
-
 const RESPONSES = {
   alreadyExists: {
     status: 401,
-    message: 'Email already exist'
+    message: 'Email or username already exist'
   },
   incorrectInfo: {
     status: 401,
@@ -45,33 +45,41 @@ function isAuthenticated({ email, password }) {
   const users = router.db.get("users").valueOf();
   return users.findIndex(user => user.email === email && user.password === password) !== -1;
 }
-function isExist({ email }) {
+function isExist({ email, username }) {
   const users = router.db.get("users").valueOf();
-  return users.findIndex(user => user.email === email) !== -1;
+  return users.findIndex(user => user.email === email && user.username === username) !== -1;
 }
-
+function getUsername(email) {
+  return router.db.get("users").valueOf().find(u => u.email === email).username;
+}
 server.post('/api/auth/register', (req, res) => {
-  const { email, password } = req.body;
+  console.log("register");
+  const { email, password, username } = req.body;
 
-  if (isExist({ email }) === true) {
+  if (isExist({ email, username }) === true) {
     res.status(RESPONSES.alreadyExists.status).json(RESPONSES.alreadyExists);
     return
   }
-
+  const model = req.body;
+  model.password = crypt.MD5(password).toString();
+  delete model.rePassword;
+  delete model.id;
   const users = router.db.get("users");
-  users.push(req.body).write();
-  const token = createTokenWith({ email, password });
-  res.status(200).json({ email, accessToken: token })
+  users.push(model).write();
+  const token = createTokenWith({ email, username });
+  res.status(200).json({ email, username, accessToken: token })
 })
 
 server.post('/api/auth/login', (req, resp) => {
+  console.log("login");
   const { email, password } = req.body;
-  if (isAuthenticated({ email, password }) === false) {
+  if (isAuthenticated({ email, password: crypt.MD5(password).toString() }) === false) {
     resp.status(RESPONSES.incorrectInfo.status).json(RESPONSES.incorrectInfo)
     return
   }
-  const nToken = createTokenWith({ email, password })
-  resp.status(200).json({ email, accessToken: nToken })
+  const username = getUsername(email);
+  const nToken = createTokenWith({ email, username })
+  resp.status(200).json({ email, username, accessToken: nToken })
 })
 
 server.use(/^(?!\/auth).*$/, (req, res, next) => {
@@ -86,11 +94,16 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
       res.status(RESPONSES.tokenNotProvided.status).json(RESPONSES.tokenNotProvided)
       return
     }
+    const username = jwt.decode(req.headers.authorization.split(" ")[1]).username;
+    req.query.username = username;
+    req.body.username = username;
+    req.body.createdAt = new Date().toString();
     next();
   } catch (err) {
     res.status(RESPONSES.tokenNotValid.status).json(RESPONSES.tokenNotValid)
   }
 })
+
 server.use('/api', router)
 server.listen(PORT, () => {
   console.log(`RestApiServer started on port: ${PORT}`)

@@ -44,6 +44,8 @@ const register: ActionCreator<
     IAuthState,
     null,
     IAuthRegisterAction>> = (model: IRegister) => {
+      delete model.rePassword;
+
       return async (dispatch: Dispatch) => {
         const headers: { [key: string]: string } = {
           "Content-Type": "application/json;charset=UTF-8",

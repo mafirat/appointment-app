@@ -5,6 +5,7 @@ export interface ILogin {
 
 export interface IAuth {
     accessToken: string;
+    username: string;
     email: string;
 }
 
@@ -14,5 +15,5 @@ export interface IRegister {
     username: string;
     email: string;
     password: string;
-    rePassword: string;
+    rePassword?: string;
 }
