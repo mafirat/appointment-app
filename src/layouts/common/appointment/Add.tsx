@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAppointment } from '../../../models/appointment';
 import { appointmentActions } from '../../../stores/actions/appointmentActions';
+import { PersonActions } from '../../../stores/actions/personActions';
+import { personSelectors } from '../../../stores/selectors/personSelectors';
 
 const Add: React.FunctionComponent = () => {
     const dispatch = useDispatch();
+    const persons = useSelector(personSelectors.list);
+    useEffect(() => {
+        dispatch(PersonActions.getAll())
+    }, []);
     const [model, setModel] = useState<IAppointment>(
         {
             createdAt: "", description: "", end: "", id: 0,
@@ -25,6 +31,7 @@ const Add: React.FunctionComponent = () => {
         const nModel = { ...model, [name]: date }
         setModel(nModel)
     }
+    const personList = persons.map(p => (<option key={p.id} value={p.id}>{`${p.name} ${p.lastname}`}</option>))
     return (
 
         <form onSubmit={submitHandler} autoComplete="off">
@@ -42,11 +49,7 @@ const Add: React.FunctionComponent = () => {
                     placeholder="Choose person"
                     value={model.personId} onChange={changeHandler}>
                     <option value={0}>Choose person</option>
-                    <option value={1}>Gandalf</option>
-                    <option value={2}>Aragorn</option>
-                    <option value={3}>Galadriel</option>
-                    <option value={4}>Elrond</option>
-                    <option value={5}>Witch King</option>
+                    {personList}
                 </select>
             </div>
             <div className="form-group">

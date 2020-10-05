@@ -13,9 +13,7 @@ const Appointments: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const appointments = useSelector(appointmentSelectors.list);
     useEffect(() => {
-        if (appointments.length < 1) {
-            dispatch(appointmentActions.getAll())
-        }
+        dispatch(appointmentActions.getAll())
     }, [dispatch]);
     const toggleState = () => {
         setModalState(!modalState)

@@ -1,4 +1,4 @@
-import { AnyAction, applyMiddleware, combineReducers, createStore, Middleware, MiddlewareAPI, Store } from "redux";
+import { applyMiddleware, combineReducers, createStore, Middleware, Store } from "redux";
 import { loadState, saveState } from "../utils";
 import thunk from "redux-thunk";
 import { appointmentReducer } from "./reducers/appointmentReducer";
@@ -7,15 +7,19 @@ import { IAuthState } from "./types/authTypes";
 import { authReducer } from "./reducers/authReducer";
 import { throttle } from "lodash";
 import { logout } from "./actions/authActions";
+import { IPersonState } from "./types/peopleTypes";
+import { personReducer } from "./reducers/personReducer";
 
 export interface IApplicationState {
     appointment: IAppointmentState,
-    auth: IAuthState
+    auth: IAuthState,
+    person: IPersonState;
 }
 
 const rootReducer = combineReducers<IApplicationState>({
     appointment: appointmentReducer,
     auth: authReducer,
+    person: personReducer
 });
 
 const persistedState: {} = loadState("state");

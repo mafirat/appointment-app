@@ -40,15 +40,15 @@ export class LoginComponent extends React.Component<IProps, IState>{
             <div className="text-center">
                 <form className="form-signin" onSubmit={this.formSubmitHandler}>
                     <img className="mb-4" src={logo} alt="" width="72" height="72" />
-                    <h1 className="h3 mb-3 font-weight-normal">Giriş Yapınız</h1>
+                    <h1 className="h3 mb-3 font-weight-normal">Sign In</h1>
                     <label className="sr-only">Email</label>
                     <input type="email" name="email" className="form-control" placeholder="Email" required autoFocus
                         onChange={this.inputChangeHandler} value={email} />
-                    <label className="sr-only">Parola</label>
+                    <label className="sr-only">Password</label>
                     <input type="password" name="password" className="form-control" placeholder="Parola" required
                         onChange={this.inputChangeHandler} value={password} />
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Giriş Yap</button>
-                    <p>Hesabınız yok mu? Buradan <Link to="/register"> hesap oluşturun</Link></p>
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+                    <Link to="/register"> Create an Account!</Link>
                 </form>
             </div>
         );

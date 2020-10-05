@@ -6,4 +6,5 @@ export const BaseRestUrls: { [key: string]: string } = {
     LOGIN: `${protocol}://${hostname}:${port}/api/auth/login`,
     REGISTER: `${protocol}://${hostname}:${port}/api/auth/register`,
     APPOINTMENTS: `${protocol}://${hostname}:${port}/api/appointments`,
+    PERSON: `${protocol}://${hostname}:${port}/api/people`,
 };

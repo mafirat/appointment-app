@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAppointment } from '../../../models/appointment';
 import { appointmentActions } from '../../../stores/actions/appointmentActions';
+import { PersonActions } from '../../../stores/actions/personActions';
+import { personSelectors } from '../../../stores/selectors/personSelectors';
 
 export interface IProps {
     appointment: IAppointment;
-    deleteHandler:(id:number) => void;
+    deleteHandler: (id: number) => void;
 }
 const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) => {
     const dispatch = useDispatch();
+    const persons = useSelector(personSelectors.list);
+    useEffect(() => {
+        dispatch(PersonActions.getAll())
+    }, []);
     const [model, setModel] = useState<IAppointment>({ ...appointment });
-    // useEffect(() => {
-    //     console.log(appointment);
-    // }, [appointment])
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(appointmentActions.update(model))
@@ -27,6 +30,7 @@ const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) =
         const nModel = { ...model, [name]: date }
         setModel(nModel)
     }
+    const personList = persons.map(p => (<option key={p.id} value={p.id}>{`${p.name} ${p.lastname}`}</option>))
     return (
 
         <form onSubmit={submitHandler} autoComplete="off">
@@ -46,11 +50,7 @@ const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) =
                     placeholder="Choose person"
                     value={model.personId} onChange={changeHandler}>
                     <option value={0}>Choose person</option>
-                    <option value={1}>Gandalf</option>
-                    <option value={2}>Aragorn</option>
-                    <option value={3}>Galadriel</option>
-                    <option value={4}>Elrond</option>
-                    <option value={5}>Witch King</option>
+                    {personList}
                 </select>
             </div>
             <div className="form-group">
@@ -76,7 +76,6 @@ const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) =
                 <select className="form-control" name="status"
                     placeholder="Choose status"
                     value={model.status} onChange={changeHandler}>
-                    <option >Choose stats</option>
                     <option value="Waiting">Waiting</option>
                     <option value="Active">Active</option>
                     <option value="Completed">Completed</option>

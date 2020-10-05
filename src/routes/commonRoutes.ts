@@ -1,4 +1,5 @@
 import { Profile, Home } from "../layouts";
+import People from "../layouts/common/people/People";
 
 export const commonRoutes = {
     Home: {
@@ -8,5 +9,9 @@ export const commonRoutes = {
     Profile: {
         Component: Profile,
         path: "/profile"
+    },
+    People: {
+        Component: People,
+        path: "/people"
     }
 };

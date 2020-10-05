@@ -36,7 +36,7 @@ export class RegisterComponent extends React.Component<IProps, IState> {
         let errors = []
         e.preventDefault();
         if (user.password !== user.rePassword) {
-            errors.push("parolalar eşleşmedi")
+            errors.push("passwords doesn't match")
             this.setState({ user, errors })
         } else {
             this.props.register(this.state.user)
@@ -55,33 +55,33 @@ export class RegisterComponent extends React.Component<IProps, IState> {
             <div className="text-center">
                 <form className="form-signin" onSubmit={this.formSubmitHandler} autoComplete="off">
                     <img className="mb-4" src={logo} alt="" width="72" height="72" />
-                    <h1 className="h3 mb-3 font-weight-normal">Kayıt Olun</h1>
+                    <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
                     {warnings}
-                    <label className="sr-only">Ad</label>
-                    <input type="text" name="name" className="form-control" placeholder="Ad" required autoComplete="off"
+                    <label className="sr-only">Name</label>
+                    <input type="text" name="name" className="form-control" placeholder="Name" required autoComplete="off"
                         onChange={this.inputChangeHandler} value={user.name} />
 
-                    <label className="sr-only">Soyad</label>
-                    <input type="text" name="lastname" className="form-control" placeholder="Soyad" required autoComplete="off"
+                    <label className="sr-only">Lastname</label>
+                    <input type="text" name="lastname" className="form-control" placeholder="Lastname" required autoComplete="off"
                         onChange={this.inputChangeHandler} value={user.lastname} />
 
-                    <label className="sr-only">Kullanıcı Adı</label>
-                    <input type="text" name="username" className="form-control" placeholder="Kullanıcı Adı" required autoComplete="off"
+                    <label className="sr-only">Username</label>
+                    <input type="text" name="username" className="form-control" placeholder="Username" required autoComplete="off"
                         onChange={this.inputChangeHandler} value={user.username} />
 
                     <label className="sr-only">Email</label>
                     <input type="email" name="email" className="form-control" placeholder="Email" required
                         onChange={this.inputChangeHandler} value={user.email} />
 
-                    <label className="sr-only">Parola</label>
-                    <input type="password" name="password" className="form-control" placeholder="Parola" required
+                    <label className="sr-only">Password</label>
+                    <input type="password" name="password" className="form-control" placeholder="Password" required
                         onChange={this.inputChangeHandler} value={user.password} />
 
-                    <label className="sr-only">Parola Tekrar</label>
-                    <input type="password" name="rePassword" className="form-control" placeholder="Parola Tekrar" required
+                    <label className="sr-only">Password Again</label>
+                    <input type="password" name="rePassword" className="form-control" placeholder="Password Again" required
                         onChange={this.inputChangeHandler} value={user.rePassword} />
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Kaydol</button>
-                    <p>Hesabınız var mı? <Link to="/login"> Giriş yap</Link></p>
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+                    <p>Already have an account? <Link to="/login"> Sign In</Link></p>
                 </form>
             </div>
         );
