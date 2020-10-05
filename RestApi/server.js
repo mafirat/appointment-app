@@ -27,9 +27,9 @@ const RESPONSES = {
     message: 'Access token not valid'
   }
 }
-const PORT = 3500;
+const PORT = process.env.PORT || 4000;
 const SECRET_KEY = "Loodos_MAF_102020";
-const TOKEN_EXPIRES_IN = "10m"; // "1h", "7 days"
+const TOKEN_EXPIRES_IN = "7 days"; // "1h", "7 days"
 
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
