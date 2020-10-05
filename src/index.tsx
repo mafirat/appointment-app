@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.css"
 import './style/site.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -21,9 +21,7 @@ const store = configureStore();
 const { dispatch } = store;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Root store={store} />
-  </React.StrictMode>,
+  <Root store={store} />,
   document.getElementById('root')
 );
 export { dispatch as g_dispatcher };

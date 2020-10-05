@@ -30,6 +30,10 @@ export class RestDataSource {
         // TO DO: error handler
         return Promise.reject(error)
     }
+    DeleteData = (params: any, token: string, id: number | string) =>
+        this.SendRequest("DELETE", `${this.baseUrl}/${id}`, params, token)
+    UpdateData = (params: any, token: string, data: any, id?: number) =>
+        this.SendRequest("PUT", `${this.baseUrl}/${id ? id : data.id}`, params, token, data)
     SetData = (params: any, token: string, data: any) =>
         this.SendRequest("POST", this.baseUrl, params, token, data)
     GetData = (params: any, token: string) =>

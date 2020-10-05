@@ -12,10 +12,10 @@ export const Navbar: React.FunctionComponent = () => {
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <NavLink to="/home" className="nav-link">Ana Sayfa <span className="sr-only">(current)</span></NavLink>
+                        <NavLink to="/home" className="nav-link">Home <span className="sr-only">(current)</span></NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/profile" className="nav-link">Profilim</NavLink>
+                        <NavLink to="/profile" className="nav-link">Profile</NavLink>
                     </li>
                 </ul>
                 <Logout />

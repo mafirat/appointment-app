@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,19 +6,23 @@ import { useDispatch } from 'react-redux';
 import { IAppointment } from '../../../models/appointment';
 import { appointmentActions } from '../../../stores/actions/appointmentActions';
 
-const Add: React.FunctionComponent = () => {
+export interface IProps {
+    appointment: IAppointment;
+    deleteHandler:(id:number) => void;
+}
+const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) => {
     const dispatch = useDispatch();
-    const [model, setModel] = useState<IAppointment>(
-        {
-            createdAt: "", description: "", end: "", id: 0,
-            notes: "", personId: 0, start: "", status: "Waiting", title: "", userId: 0
-        })
+    const [model, setModel] = useState<IAppointment>({ ...appointment });
+    useEffect(() => {
+        console.log(appointment);
+    }, [appointment])
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(appointmentActions.add(model))
-
+        dispatch(appointmentActions.update(model))
     }
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        console.log(e.target.value);
+
         setModel({ ...model, [e.target.name]: e.target.value })
     }
     const dateChangeHandler = (date: Date, name: string) => {
@@ -30,11 +34,13 @@ const Add: React.FunctionComponent = () => {
         <form onSubmit={submitHandler} autoComplete="off">
             <div className="form-group">
                 <label>Title</label>
-                <input type="text" className="form-control" name="title" placeholder="Title" required onChange={changeHandler} />
+                <input type="text" className="form-control" name="title" placeholder="Title" required
+                    onChange={changeHandler} value={model.title} />
             </div>
             <div className="form-group">
                 <label>Description</label>
-                <input type="text" className="form-control" name="description" placeholder="Description" required onChange={changeHandler} />
+                <input type="text" className="form-control" name="description" placeholder="Description" required
+                    onChange={changeHandler} value={model.description} />
             </div>
             <div className="form-group">
                 <label >With</label>
@@ -55,7 +61,7 @@ const Add: React.FunctionComponent = () => {
                     onChange={(a: Date) => dateChangeHandler(a, "start")}
                     wrapperClassName="form-control" className="form-control"
                     timeInputLabel="Time:"
-                    dateFormat="MM/dd/yyyy h:mm aa"
+                    dateFormat="dd/MM/yyyy h:mm aa"
                     showTimeInput />
             </div>
             <div className="form-group">
@@ -64,12 +70,29 @@ const Add: React.FunctionComponent = () => {
                     onChange={(a: Date) => dateChangeHandler(a, "end")}
                     wrapperClassName="form-control" className="form-control"
                     timeInputLabel="Time:"
-                    dateFormat="MM/dd/yyyy h:mm aa"
+                    dateFormat="dd/MM/yyyy h:mm aa"
                     showTimeInput />
             </div>
-            <button type="submit" className="btn btn-outline-success">Save</button>
+            <div className="form-group">
+                <label>Status</label>
+                <select className="form-control" name="status"
+                    placeholder="Choose status"
+                    value={model.status} onChange={changeHandler}>
+                    <option >Choose stats</option>
+                    <option value="Waiting">Waiting</option>
+                    <option value="Active">Active</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div className="form-group">
+                <label>Notes</label>
+                <textarea className="form-control" name="notes" placeholder="Notes"
+                    onChange={changeHandler} value={model.notes} style={{ minHeight: 70, maxHeight: 120 }} />
+            </div>
+            <button type="submit" className="btn btn-outline-success">Update</button>
+            <button type="button" className="btn  btn-link" onClick={() => deleteHandler(model.id)}>Delete</button>
         </form>
     );
 }
 
-export default Add;
+export default Edit;

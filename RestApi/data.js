@@ -15,12 +15,12 @@ module.exports = function () {
         ],
         appointments: [
             {
-                id: 1, username: "admin", personId: 2, startTime: "10-1-2020 10:12:36",
-                note: "some note", status: "Completed", descriptin: "Appointment 1 desc", title: "Appointment 1"
+                id: 1, username: "admin", personId: 2, start: "2020-10-30T21:00:00.000Z", end: "",
+                note: "some note", status: "Completed", description: "Appointment 1 desc", title: "Appointment 1"
             },
             {
-                id: 2, username: "admin", personId: 1, startTime: "10-1-2020 10:12:36",
-                note: "some note", status: "Waiting", descriptin: "Appointment 2 desc", title: "Appointment 2"
+                id: 2, username: "admin", personId: 1, start: "2020-10-30T21:00:00.000Z", end: "",
+                note: "some note", status: "Waiting", description: "Appointment 2 desc", title: "Appointment 2"
             },
         ]
     }

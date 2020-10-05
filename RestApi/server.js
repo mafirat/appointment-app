@@ -96,8 +96,10 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     }
     const username = jwt.decode(req.headers.authorization.split(" ")[1]).username;
     req.query.username = username;
-    req.body.username = username;
-    req.body.createdAt = new Date().toString();
+    if (req.method === "POST") {
+      req.body.username = username;
+      req.body.createdAt = new Date().toString();
+    }
     next();
   } catch (err) {
     res.status(RESPONSES.tokenNotValid.status).json(RESPONSES.tokenNotValid)

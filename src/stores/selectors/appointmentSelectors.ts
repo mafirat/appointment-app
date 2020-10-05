@@ -5,7 +5,17 @@ const list = createSelector(
     state => state.appointment.appointments
 );
 
+const get = (id: number) => (createSelector(
+    (state: IApplicationState) => state,
+    state => state.appointment.appointments.filter(a => a.id === id)[0]
+));
+const current = createSelector(
+    (state: IApplicationState) => state,
+    state => state.appointment.currentAppointment
+);
+
 
 export const appointmentSelectors = {
-    list
+    list,
+    get, current
 }
