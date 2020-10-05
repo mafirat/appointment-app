@@ -15,8 +15,6 @@ const getAll: ActionCreator<ThunkAction<Promise<any>, IApplicationState, null, I
         dispatch(loading(AppointmentActionTypes.GET_ALL_REQUEST));
         appointmentSource.GetData({}, getState().auth.getToken())
             .then(resp => {
-                console.log("appointments: ", resp.data);
-
                 dispatch({
                     type: AppointmentActionTypes.GET_ALL_SUCCESS,
                     appointments: resp.data

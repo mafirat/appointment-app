@@ -36,11 +36,9 @@ export class RegisterComponent extends React.Component<IProps, IState> {
         let errors = []
         e.preventDefault();
         if (user.password !== user.rePassword) {
-            console.log("parola eşleşmedi");
             errors.push("parolalar eşleşmedi")
             this.setState({ user, errors })
         } else {
-
             this.props.register(this.state.user)
         }
     }

@@ -22,8 +22,6 @@ const login: ActionCreator<
           "Content-Type": "application/json;charset=UTF-8",
           "Access-Control-Allow-Origin": "*"
         };
-        console.log(BaseRestUrls.LOGIN);
-
         dispatch(loading());
         axios.post(BaseRestUrls.LOGIN, model, { headers: headers })
           .then(resp => {

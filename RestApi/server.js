@@ -29,7 +29,7 @@ const RESPONSES = {
 }
 const PORT = 3500;
 const SECRET_KEY = "Loodos_MAF_102020";
-const TOKEN_EXPIRES_IN = "1h";
+const TOKEN_EXPIRES_IN = "10m"; // "1h", "7 days"
 
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
@@ -53,7 +53,6 @@ function getUsername(email) {
   return router.db.get("users").valueOf().find(u => u.email === email).username;
 }
 server.post('/api/auth/register', (req, res) => {
-  console.log("register");
   const { email, password, username } = req.body;
 
   if (isExist({ email, username }) === true) {
@@ -67,19 +66,20 @@ server.post('/api/auth/register', (req, res) => {
   const users = router.db.get("users");
   users.push(model).write();
   const token = createTokenWith({ email, username });
-  res.status(200).json({ email, username, accessToken: token })
+  const expirationTime = jwt.decode(token).exp
+  res.status(200).json({ email, username, accessToken: token, expirationTime })
 })
 
 server.post('/api/auth/login', (req, resp) => {
-  console.log("login");
   const { email, password } = req.body;
   if (isAuthenticated({ email, password: crypt.MD5(password).toString() }) === false) {
     resp.status(RESPONSES.incorrectInfo.status).json(RESPONSES.incorrectInfo)
     return
   }
   const username = getUsername(email);
-  const nToken = createTokenWith({ email, username })
-  resp.status(200).json({ email, username, accessToken: nToken })
+  const token = createTokenWith({ email, username })
+  const expirationTime = jwt.decode(token).exp
+  resp.status(200).json({ email, username, accessToken: token, expirationTime })
 })
 
 server.use(/^(?!\/auth).*$/, (req, res, next) => {
@@ -94,10 +94,10 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
       res.status(RESPONSES.tokenNotProvided.status).json(RESPONSES.tokenNotProvided)
       return
     }
-    const username = jwt.decode(req.headers.authorization.split(" ")[1]).username;
-    req.query.username = username;
+    const decoded = jwt.decode(req.headers.authorization.split(" ")[1]);
+    req.query.username = decoded.username;
     if (req.method === "POST") {
-      req.body.username = username;
+      req.body.username = decoded.username;
       req.body.createdAt = new Date().toString();
     }
     next();

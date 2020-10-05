@@ -13,16 +13,14 @@ export interface IProps {
 const Edit: React.FunctionComponent<IProps> = ({ appointment, deleteHandler }) => {
     const dispatch = useDispatch();
     const [model, setModel] = useState<IAppointment>({ ...appointment });
-    useEffect(() => {
-        console.log(appointment);
-    }, [appointment])
+    // useEffect(() => {
+    //     console.log(appointment);
+    // }, [appointment])
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(appointmentActions.update(model))
     }
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        console.log(e.target.value);
-
         setModel({ ...model, [e.target.name]: e.target.value })
     }
     const dateChangeHandler = (date: Date, name: string) => {

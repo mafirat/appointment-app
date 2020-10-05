@@ -7,6 +7,7 @@ export interface IAuth {
     accessToken: string;
     username: string;
     email: string;
+    expirationTime: string;
 }
 
 export interface IRegister {
