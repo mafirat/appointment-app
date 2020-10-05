@@ -31,7 +31,9 @@ const login: ActionCreator<
             });
           })
           .catch(err => {
-            console.log("Error:", err.response);
+            if (err.response.status === 401) {
+              window.alert(err.response.data.message)
+            }
           });
       };
     };
@@ -58,7 +60,9 @@ const register: ActionCreator<
             });
           })
           .catch(err => {
-            console.log("Error:", err.response);
+            if (err.response.status === 401) {
+              window.alert(err.response.data.message)
+            }
           });
       };
     };
